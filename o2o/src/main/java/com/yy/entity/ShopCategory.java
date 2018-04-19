@@ -1,4 +1,4 @@
-package com.yy.dao.pojo;
+package com.yy.entity;
 
 import java.util.Date;
 
