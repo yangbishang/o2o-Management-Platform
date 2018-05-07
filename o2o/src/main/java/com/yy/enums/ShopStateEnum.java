@@ -6,16 +6,26 @@ public enum ShopStateEnum {
     SUCCESS(1,"操作成功"),
     PASS(2,"通过认证"),
     INNER_ERROR(-1001,"内部系统错误"),
-    NULL_SHOPID(-1002,"ShopId为空");
+    NULL_SHOPID(-1002,"ShopId为空"),
+    NULL_SHOP(-1003,"shop信息为空");
 
 
 
     private int state;
     private String stateInfo;
 
-    private ShopStateEnum(int state,String stateInfo){  //构造器设置为私有的是不想让外部改变CHECK，OFFLINE的值
+    //构造器设置为私有的是不想让外部改变CHECK，OFFLINE的值
+    private ShopStateEnum(int state,String stateInfo){
         this.state = state;
         this.stateInfo = stateInfo;
+    }
+
+    //getter方法
+    public int getState() {
+        return state;
+    }
+    public String getStateInfo() {
+        return stateInfo;
     }
 
     /**
@@ -30,11 +40,5 @@ public enum ShopStateEnum {
         return null;
     }
 
-    public int getState() {
-        return state;
-    }
 
-    public String getStateInfo() {
-        return stateInfo;
-    }
 }

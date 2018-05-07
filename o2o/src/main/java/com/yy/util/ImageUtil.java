@@ -20,9 +20,9 @@ public class ImageUtil {
 
     //处理缩略图
     public static String generateThumbnail(CommonsMultipartFile thumbnail,String targetAddr){//spring自带的文件处理对象
-        String realFileName = getRandomFileName();  //获取文件的随机名称
-        String extension = getFileExtension(thumbnail); //获取文件的拓展名
-        makeDirPath(targetAddr);   //创建目录
+        String realFileName = getRandomFileName();                   //获取文件的随机名称
+        String extension = getFileExtension(thumbnail);               //获取文件的拓展名
+        makeDirPath(targetAddr);                                       //创建目录
         String relativeAddr = targetAddr + realFileName + extension;   //相对路径
         File dest = new File(PathUtil.getImgBasePath() + relativeAddr);  //新的文件
         try{
@@ -33,6 +33,29 @@ public class ImageUtil {
             e.printStackTrace();
         }
         return relativeAddr;
+    }
+
+    /**
+     * 生成随机的文件名，当前年月日小时分钟分秒+五位随机数
+     * @return
+     */
+    private static String getRandomFileName() {
+        //获取随机的五位数
+        int rannum = r.nextInt(89999) + 10000;
+        String nowTimeStr = sDateFormat.format(new Date());
+
+        return nowTimeStr + rannum;
+    }
+
+
+    /**
+     * 获取输入文件流的扩展名
+     * @param cFile
+     * @return
+     */
+    private static String getFileExtension(CommonsMultipartFile cFile) {
+        String originalFileName = cFile.getOriginalFilename();
+        return originalFileName.substring(originalFileName.lastIndexOf("."));
     }
 
     /**
@@ -48,27 +71,7 @@ public class ImageUtil {
         }
     }
 
-    /**
-     * 获取输入文件流的扩展名
-     * @param cFile
-     * @return
-     */
-    private static String getFileExtension(CommonsMultipartFile cFile) {
-        String originalFileName = cFile.getOriginalFilename();
-        return originalFileName.substring(originalFileName.lastIndexOf("."));
-    }
 
-    /**
-     * 生成随机的文件名，当前年月日小时分钟分秒+五位随机数
-     * @return
-     */
-    private static String getRandomFileName() {
-        //获取随机的五位数
-        int rannum = r.nextInt(89999) + 10000;
-        String nowTimeStr = sDateFormat.format(new Date());
-
-        return nowTimeStr + rannum;
-    }
 
 
 
