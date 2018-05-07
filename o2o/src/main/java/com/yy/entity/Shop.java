@@ -22,8 +22,9 @@ public class Shop {
 
 
     private Area area;
+    private PersonInfo owner;
     private ShopCategory shopCategory;
-    private ShopCategory parentCategory;
+
 
     public Long getShopId() {
         return shopId;
@@ -167,11 +168,11 @@ public class Shop {
         return "[shopId=" + shopId + ", shopName=" + shopName + "]";
     }
 
-    public ShopCategory getParentCategory() {
-        return parentCategory;
+    public PersonInfo getOwner() {
+        return owner;
     }
 
-    public void setParentCategory(ShopCategory parentCategory) {
-        this.parentCategory = parentCategory;
+    public void setOwner(PersonInfo owner) {
+        this.owner = owner;
     }
 }
