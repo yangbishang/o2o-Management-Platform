@@ -38,19 +38,19 @@ public class ShopManagementController {
         ObjectMapper mapper = new ObjectMapper();
         Shop shop = null;
         try{
-            shop = mapper.readValue(shopStr,Shop.class);
+            shop = mapper.readValue(shopStr,Shop.class);          //json --> Shop(将shopStr转换成Shop实例)
         }catch (Exception e){
             modelMap.put("success",false);
             modelMap.put("errMsg",e.getMessage());
             return modelMap;
         }
         //1.2  图片
-        CommonsMultipartFile shopImg = null;
+        CommonsMultipartFile shopImg = null;   //spring自带的
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(
-                request.getSession().getServletContext());
+                request.getSession().getServletContext());   //request从本次会话的上下文去获取本次上传文件的上下文
         if(commonsMultipartResolver.isMultipart(request)){  //判断request里面是否有上传的文件流
-            MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-            shopImg = (CommonsMultipartFile) multipartHttpServletRequest.getFile("shopImg");
+            MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;   //将request做类型转换，multipartHttpServletReques能够获取文件流
+            shopImg = (CommonsMultipartFile) multipartHttpServletRequest.getFile("shopImg");               //将获取的文件流强制转换成spring能获取的文件流类型CommonsMultipartFile
         }else{
             modelMap.put("success",false);
             modelMap.put("errMsg","上传图片不能为空");

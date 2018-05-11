@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,19 +20,6 @@
 
     <link rel="apple-touch-icon-precomposed" href="/assets/img/apple-touch-icon-114x114.png">
 
-    <script>
-        //ga
-    </script>
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?ba76f8230db5f616edc89ce066670710";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-
 </head>
 <body>
 <div class="page-group">
@@ -46,99 +34,133 @@
         <div class="content">
             <div class="list-block">
                 <ul>
-                    <!-- Text inputs -->
                     <li>
                         <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon icon-form-name"></i>
+                            </div>
                             <div class="item-inner">
-                                <div class="item-title label">Name</div>
+                                <div class="item-title label">商铺名称</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="Your name">
+                                    <input type="text" id="shop-name" placeholder="商铺名称">
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title label">E-mail</div>
-                                <div class="item-input">
-                                    <input type="email" placeholder="E-mail">
-                                </div>
+                            <div class="item-media">
+                                <i class="icon icon-form-email"></i>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title label">Password</div>
+                                <div class="item-title label">商铺分类</div>
                                 <div class="item-input">
-                                    <input type="password" placeholder="Password" class="">
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title label">Gender</div>
-                                <div class="item-input">
-                                    <select>
-                                        <option>Male</option>
-                                        <option>Female</option>
+                                    <select id="shop-category">
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <!-- Date -->
                     <li>
                         <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon icon-form-email"></i>
+                            </div>
                             <div class="item-inner">
-                                <div class="item-title label">Birth date</div>
+                                <div class="item-title label">所属区域</div>
                                 <div class="item-input">
-                                    <input type="date" placeholder="Birth day" value="2014-04-30">
+                                    <select id="area">
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <!-- Switch (Checkbox) -->
                     <li>
                         <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon icon-form-email"></i>
+                            </div>
                             <div class="item-inner">
-                                <div class="item-title label">Switch</div>
+                                <div class="item-title label">详细地址</div>
                                 <div class="item-input">
-                                    <label class="label-switch">
-                                        <input type="checkbox">
-                                        <div class="checkbox"></div>
-                                    </label>
+                                    <input type="text" id="shop-addr" placeholder="详细地址">
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="align-top">
+                    <li>
                         <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon icon-form-email"></i>
+                            </div>
                             <div class="item-inner">
-                                <div class="item-title label">Textarea</div>
+                                <div class="item-title label">联系电话</div>
                                 <div class="item-input">
-                                    <textarea></textarea>
+                                    <input type="tel" id="shop-phone" placeholder="联系电话">
                                 </div>
                             </div>
                         </div>
                     </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon icon-form-email"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title label">缩略图</div>
+                                <div class="item-input">
+                                    <input type="file" id="shop-img" placeholder="联系电话">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon icon-form-email"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title label">店铺简介</div>
+                                <div class="item-input">
+                                    <textarea placeholder="店铺简介" id="shop-desc"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon icon-form-email"></i>
+                            </div>
+                            <div class="item-inner">
+                                <label for="j_captcha" class="item-title label">验证码</label> <input
+                                    id="j_captcha" name="j_captcha" type="text"
+                                    class="form-control in" placeholder="验证码" />
+                                <div class="item-input">
+                                    <img id="captcha_img" alt="点击更换" title="点击更换"
+                                         onclick="changeVerifyCode(this)" src="../Kaptcha" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
             <div class="content-block">
                 <div class="row">
-                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
-                    <div class="col-50"><a href="#" class="button button-big button-fill button-success">提交</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">返回</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success" id="submit">提交</a></div>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+<!--不需要下载文件放在本地，而是通过cdn就近原则获取-->
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+
+<script type="text/javascript" src="../resources/js/shop/shopoperation.js" charset="utf-8"></script>
 </body>
 </html>
