@@ -1,17 +1,21 @@
-/**
- *g
- */
-$(function(){
+
+/*       $(function(){          */
+
+$(window).on("load", () => {
     var initUrl = '/o2o/shopadmin/getshopinitinfo';
     var registerShopUrl = '/o2o/shopadmin/registershop';
-    //调试信息
-    alert(initUrl);
+
+
     //js文件被加载的时候,就自动加载getShopInitInfo();然后去后台获取店铺信息和区域信息
     getShopInitInfo();
 
     //获取店铺的基本信息,然后填充至控件里面去
     function getShopInitInfo(){                                             //第一个参数使我们要访问的url，第二个参数是回调函数
-        $.getJSON(initUrl,function (data) {                                // data有后台接收回来的数据
+        //调试信息
+        alert(registerShopUrl);
+/*
+
+       $.getJSON(initUrl,function (data) {                                // data有后台接收回来的数据
             if(data.success){
                 var tempHtml = '';
                 var tempAreaHtml = '';                                     // 用于获取区域信息
@@ -25,11 +29,55 @@ $(function(){
                     + item.areaName +'</option>';
                 })
 
+
                 //获取到了信息以后，将它显示到前台
-                $('#shop-category').html(tempHtml);
-                $('#area').html(tempAreaHtml);
+                $("#shop-category").html(tempHtml)
+
+                $("#area").html(tempAreaHtml);
             }
         });
+
+*/
+
+
+         var tempHtml = '';
+         var tempAreaHtml = '';
+         $.ajax({
+              type:"post",
+              url: initUrl,
+              dataType:"json",
+              success:function (data) {
+                          // 店铺分类的列表信息
+                          $.each(data.shopCategoryList,(i,item)=>{
+                             tempHtml +=  '<option data-id="' + item.shopCategoryId + '">'
+                                 + item.shopCategoryName + '</option>';
+                          })
+                          //区域信息
+                          $.each(data.areaList,(i,item)=>{
+                              tempAreaHtml +=  '<option data-id="' + item.areaId + '">'
+                                  + item.areaName + '</option>';
+                          })
+
+                  $("#shop-category").html(tempHtml)
+                  $("#area").html(tempAreaHtml);
+              }
+
+
+         })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         $('#submit').click(function () {
             //模拟shop的一个实体

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,7 +109,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">缩略图</div>
                                 <div class="item-input">
-                                    <input type="file" id="shop-img" placeholder="上传图片">
+                                    <input type="file" id="shop-img" placeholder="联系电话">
                                 </div>
                             </div>
                         </div>
@@ -147,16 +148,19 @@
             </div>
             <div class="content-block">
                 <div class="row">
-                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
-                    <div class="col-50"><a href="#" class="button button-big button-fill button-success">提交</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">返回</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success" id="submit">提交</a></div>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+<!--不需要下载文件放在本地，而是通过cdn就近原则获取-->
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+
+<script type="text/javascript" src="../resources/js/shop/shopoperation.js" charset="utf-8"></script>
 </body>
 </html>
