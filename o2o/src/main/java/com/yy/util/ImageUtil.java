@@ -8,6 +8,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -19,20 +20,24 @@ public class ImageUtil {
 
 
     //处理缩略图
-    public static String generateThumbnail(CommonsMultipartFile thumbnail,String targetAddr){//spring自带的文件处理对象
+    public static String generateThumbnail(InputStream thumbnailInputStream, String fileName,String targetAddr){//spring自带的文件处理对象
         String realFileName = getRandomFileName();                   //获取文件的随机名称
-        String extension = getFileExtension(thumbnail);               //获取文件的拓展名
+
+        String extension = getFileExtension(fileName);               //获取文件的拓展名
         makeDirPath(targetAddr);                                       //创建目录
+
         String relativeAddr = targetAddr + realFileName + extension;   //相对路径
         File dest = new File(PathUtil.getImgBasePath() + relativeAddr);  //新的文件
+        System.out.println(dest+"    "+relativeAddr);          //test
         try{
-            Thumbnails.of(thumbnail.getInputStream()).size(200,200)
+/*            Thumbnails.of(thumbnailInputStream).size(200,200)   //Thumbnails.of可以接受很多种类型
                     .watermark(Positions.BOTTOM_RIGHT,ImageIO.read(new File(basePath + "/watermark.jpg")),0.25f)
-                    .outputQuality(0.8f).toFile(dest);
+                    .outputQuality(0.8f).toFile(dest);*/
+            Thumbnails.of(thumbnailInputStream).size(600, 300).outputQuality(0.5f).toFile(dest);
         }catch (IOException e){
             e.printStackTrace();
         }
-        return relativeAddr;
+        return dest.getPath();
     }
 
     /**
@@ -50,12 +55,12 @@ public class ImageUtil {
 
     /**
      * 获取输入文件流的扩展名
-     * @param cFile
+     * @param fileName
      * @return
      */
-    private static String getFileExtension(CommonsMultipartFile cFile) {
-        String originalFileName = cFile.getOriginalFilename();
-        return originalFileName.substring(originalFileName.lastIndexOf("."));
+    private static String getFileExtension(String fileName) {
+
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     /**

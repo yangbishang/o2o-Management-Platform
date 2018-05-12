@@ -14,13 +14,14 @@ public class PathUtil {
         }else{
             basePath = "/home/xiangze/image/";
         }
-        basePath = basePath.replace("/",seperator);
+        /*basePath = basePath.replace("/",seperator);*/
+
         return basePath;
     }
 
     //返回项目图片的子路径
     public static String getShopImagePath(long shopId){
-        String imagePath = "upload/item/shop/" + shopId + "/";
-        return imagePath.replace("/",seperator);
+        String imagePath = "/upload/item/shop/" + shopId + "/";
+        return imagePath/*.replace("/",seperator)*/;
     }
 }

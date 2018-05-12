@@ -10,6 +10,7 @@ import com.yy.enums.ShopStateEnum;
 import com.yy.service.AreaService;
 import com.yy.service.ShopCategoryService;
 import com.yy.service.ShopService;
+import com.yy.util.CodeUtil;
 import com.yy.util.HttpServletRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +64,11 @@ public class ShopManagementController {
     @ResponseBody
     private Map<String, Object> registerShop(HttpServletRequest request) {
         Map<String,Object> modelMap = new HashMap<String,Object>();
+        if(!CodeUtil.checkVerifyCode(request)){
+            modelMap.put("success",false);
+            modelMap.put("errMsg",false);
+            return modelMap;
+        }
         //1.接收并转换相应的参数，包括店铺信息以及图片的信息
         //1.1  店铺  （将传过来的json转换成实体类）
         String shopStr = HttpServletRequestUtil.getString(request,"shopStr");
@@ -92,15 +99,24 @@ public class ShopManagementController {
         if(shop!=null&shopImg!=null){
 
             PersonInfo owner = new PersonInfo();
+
+            //Session TODO
             owner.setUserId(1L);
             shop.setOwner(owner);
-            ShopExecution se = shopService.addShop(shop,shopImg);
-            if(se.getState()== ShopStateEnum.CHECK.getState()){
-                modelMap.put("success",true);
-            }else{
+            ShopExecution se = null;
+            try {
+                se = shopService.addShop(shop,shopImg.getInputStream(),shopImg.getOriginalFilename());
+                if(se.getState()== ShopStateEnum.CHECK.getState()){
+                    modelMap.put("success",true);
+                }else{
+                    modelMap.put("success",false);
+                    modelMap.put("errMsg",se.getStateInfo());
+                }
+            } catch (IOException e) {
                 modelMap.put("success",false);
-                modelMap.put("errMsg",se.getStateInfo());
+                modelMap.put("errMsg",e.getMessage());
             }
+
             return modelMap;
 
         }else {

@@ -58,21 +58,12 @@ $(window).on("load", () => {
                                   + item.areaName + '</option>';
                           })
 
-                  $("#shop-category").html(tempHtml)
-                  $("#area").html(tempAreaHtml);
+                  $('#shop-category').html(tempHtml)
+                  $('#area').html(tempAreaHtml);
               }
 
 
          })
-
-
-
-
-
-
-
-
-
 
 
 
@@ -98,13 +89,19 @@ $(window).on("load", () => {
                     return !this.selected;
                 }).data('id')
             };
-
             //获取文件(图片)流
             var shopImg = $('#shop-img')[0].files[0];
             //定义一个formData来接收表单的内容
             var formData = new FormData();
             formData.append('shopImg',shopImg);
             formData.append('shopStr',JSON.stringify(shop));  //转换成字符流的形式传进去
+
+            var verifyCodeActual = $('#j_kaptcha').val();
+            if(!verifyCodeActual){
+                $.toast('请输入验证码！');
+                return;
+            }
+            formData.append('verifyCodeActual',verifyCodeActual);
             //接收完数据就提交到后台
             $.ajax({
                 url:registerShopUrl,
@@ -119,6 +116,8 @@ $(window).on("load", () => {
                     }else{
                         $.toast('提交失败！'+data.errMsg);
                     }
+
+                    $('#kaptcha_img').click();
                 }
 
             })
