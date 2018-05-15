@@ -13,57 +13,57 @@ $(window).on("load", () => {
     function getShopInitInfo(){                                             //第一个参数使我们要访问的url，第二个参数是回调函数
         //调试信息
         alert(registerShopUrl);
-/*
+        /*
 
-       $.getJSON(initUrl,function (data) {                                // data有后台接收回来的数据
-            if(data.success){
-                var tempHtml = '';
-                var tempAreaHtml = '';                                     // 用于获取区域信息
-                data.shopCategoryList.map(function (item,index) {          // 店铺分类的列表信息，用map的形式遍历列表
-                    tempHtml += '<option data-id="' + item.shopCategoryId + '">'
-                    + item.shopCategoryName + '</option>>';
+               $.getJSON(initUrl,function (data) {                                // data有后台接收回来的数据
+                    if(data.success){
+                        var tempHtml = '';
+                        var tempAreaHtml = '';                                     // 用于获取区域信息
+                        data.shopCategoryList.map(function (item,index) {          // 店铺分类的列表信息，用map的形式遍历列表
+                            tempHtml += '<option data-id="' + item.shopCategoryId + '">'
+                            + item.shopCategoryName + '</option>>';
+                        })
+                        //区域信息
+                        data.areaList.map(function(item,index){
+                            tempAreaHtml += '<option data-id="' + item.areaId + '">'
+                            + item.areaName +'</option>';
+                        })
+
+
+                        //获取到了信息以后，将它显示到前台
+                        $("#shop-category").html(tempHtml)
+
+                        $("#area").html(tempAreaHtml);
+                    }
+                });
+
+        */
+
+
+        var tempHtml = '';
+        var tempAreaHtml = '';
+        $.ajax({
+            type:"post",
+            url: initUrl,
+            dataType:"json",
+            success:function (data) {
+                // 店铺分类的列表信息
+                $.each(data.shopCategoryList,(i,item)=>{
+                    tempHtml +=  '<option data-id="' + item.shopCategoryId + '">'
+                        + item.shopCategoryName + '</option>';
                 })
                 //区域信息
-                data.areaList.map(function(item,index){
-                    tempAreaHtml += '<option data-id="' + item.areaId + '">'
-                    + item.areaName +'</option>';
+                $.each(data.areaList,(i,item)=>{
+                    tempAreaHtml +=  '<option data-id="' + item.areaId + '">'
+                        + item.areaName + '</option>';
                 })
 
-
-                //获取到了信息以后，将它显示到前台
-                $("#shop-category").html(tempHtml)
-
-                $("#area").html(tempAreaHtml);
+                $('#shop-category').html(tempHtml)
+                $('#area').html(tempAreaHtml);
             }
-        });
-
-*/
 
 
-         var tempHtml = '';
-         var tempAreaHtml = '';
-         $.ajax({
-              type:"post",
-              url: initUrl,
-              dataType:"json",
-              success:function (data) {
-                          // 店铺分类的列表信息
-                          $.each(data.shopCategoryList,(i,item)=>{
-                             tempHtml +=  '<option data-id="' + item.shopCategoryId + '">'
-                                 + item.shopCategoryName + '</option>';
-                          })
-                          //区域信息
-                          $.each(data.areaList,(i,item)=>{
-                              tempAreaHtml +=  '<option data-id="' + item.areaId + '">'
-                                  + item.areaName + '</option>';
-                          })
-
-                  $('#shop-category').html(tempHtml)
-                  $('#area').html(tempAreaHtml);
-              }
-
-
-         })
+        })
 
 
 

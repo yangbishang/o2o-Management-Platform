@@ -20,9 +20,9 @@ public class ShopServiceImpl implements ShopService {
     private ShopDao shopDao;
 
     @Override
- /*   @Transactional*/
+    /*   @Transactional*/
     public ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) {
-       //空值判断
+        //空值判断
         if(shop == null){
             return new ShopExecution(ShopStateEnum.NULL_SHOP);
         }
