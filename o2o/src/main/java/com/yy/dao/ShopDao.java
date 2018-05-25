@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Repository
 public interface ShopDao {
+    /**
+     * @param shopId
+     * @return shop
+     */
+    Shop queryByShopId(long shopId);
 
     /**
      * 新增店铺

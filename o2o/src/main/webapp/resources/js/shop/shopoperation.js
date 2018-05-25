@@ -2,42 +2,85 @@
 /*       $(function(){          */
 
 $(window).on("load", () => {
+    var shopId = getQueryString('shopId');                                //getQueryString方法为自动匹配url后面参数所带的值
+    var isEdit = shopId ? true : false ;                                   //如果存在shopId，则是修改，如果不存在，则是注册
     var initUrl = '/o2o/shopadmin/getshopinitinfo';
     var registerShopUrl = '/o2o/shopadmin/registershop';
+    var shopInfoUrl = "/o2o/shopadmin/getshopbyid?shopId=" + shopId;
+    var editShopUrl = "/o2o/shopadmin/modifyshop";
+    var submitUrl ;
 
 
-    //js文件被加载的时候,就自动加载getShopInitInfo();然后去后台获取店铺信息和区域信息
-    getShopInitInfo();
+    //如果存在shopId，则是修改，如果不存在，则是注册
+    if(!isEdit){
+        //js文件被加载的时候,就自动加载getShopInitInfo();然后去后台获取店铺信息和区域信息
+        getShopInitInfo();
+    }else{
+        getShopInfo(shopId);
+    }
+
+
+    function getShopInfo(shopId){
+
+        //调试信息
+        alert(shopInfoUrl);
+
+
+        var tempAreaHtml01 = '';
+
+        $.ajax({
+            type:"get",
+            url:shopInfoUrl,
+            dataType:"json",
+            success:function(data){
+                var shop = data.shop;
+                $('#shop-name').val(shop.shopName);
+                $('#shop-addr').val(shop.shopAddr);
+                $('#shop-phone').val(shop.phone);
+                $('#shop-desc').val(shop.shopDesc);
+
+                var shopCategory =  '<option data-id="'+ shop.shopCategory.shopCategoryId + '"selected> '
+                                 + shop.shopCategory.shopCategoryName + '</option>>';
+
+                //区域信息
+                $.each(data.areaList,(i,item)=>{
+                    tempAreaHtml01 +=  '<option data-id="' + item.areaId + '">'
+                        + item.areaName + '</option>';
+                })
+
+
+                $('#shop-category').html(shopCategory);
+                $('#shop-category').attr('disabled','disabled');                                      //店铺的类别是不能修改的
+                $('#area').html(tempAreaHtml01);
+                $("#area option[data-id='" + shop.area.areaId + "']").attr("selected","selected");  //默认选择现在这个店铺的信息
+
+            }
+        })
+    }
+
 
     //获取店铺的基本信息,然后填充至控件里面去
     function getShopInitInfo(){                                             //第一个参数使我们要访问的url，第二个参数是回调函数
-        //调试信息
-        alert(registerShopUrl);
-        /*
-
-               $.getJSON(initUrl,function (data) {                                // data有后台接收回来的数据
-                    if(data.success){
-                        var tempHtml = '';
-                        var tempAreaHtml = '';                                     // 用于获取区域信息
-                        data.shopCategoryList.map(function (item,index) {          // 店铺分类的列表信息，用map的形式遍历列表
-                            tempHtml += '<option data-id="' + item.shopCategoryId + '">'
-                            + item.shopCategoryName + '</option>>';
-                        })
-                        //区域信息
-                        data.areaList.map(function(item,index){
-                            tempAreaHtml += '<option data-id="' + item.areaId + '">'
-                            + item.areaName +'</option>';
-                        })
-
-
-                        //获取到了信息以后，将它显示到前台
-                        $("#shop-category").html(tempHtml)
-
-                        $("#area").html(tempAreaHtml);
-                    }
-                });
-
-        */
+    /*
+        $.getJSON(initUrl,function (data) {                                // data有后台接收回来的数据
+             if(data.success){
+                 var tempHtml = '';
+                 var tempAreaHtml = '';                                     // 用于获取区域信息
+                 data.shopCategoryList.map(function (item,index) {          // 店铺分类的列表信息，用map的形式遍历列表
+                 tempHtml += '<option data-id="' + item.shopCategoryId + '">'
+                   + item.shopCategoryName + '</option>>';
+                })
+            //区域信息
+            data.areaList.map(function(item,index){
+                 tempAreaHtml += '<option data-id="' + item.areaId + '">'
+                 + item.areaName +'</option>';
+             })
+          /获取到了信息以后，将它显示到前台
+          $("#shop-category").html(tempHtml)
+          $("#area").html(tempAreaHtml);
+          }
+       });
+ */
 
 
         var tempHtml = '';
@@ -73,6 +116,10 @@ $(window).on("load", () => {
         $('#submit').click(function () {
             //模拟shop的一个实体
             var shop = {};
+            if(isEdit){
+                shop.shopId = shopId;
+            }
+
             shop.shopName = $('#shop-name').val();
             shop.shopAddr = $('#shop-addr').val();
             shop.phone = $('#shop-phone').val();
@@ -103,8 +150,14 @@ $(window).on("load", () => {
             }
             formData.append('verifyCodeActual',verifyCodeActual);
             //接收完数据就提交到后台
+
+            if(isEdit){
+                submitUrl = editShopUrl;
+            }else{
+                submitUrl = registerShopUrl;
+            }
             $.ajax({
-                url:registerShopUrl,
+                url:submitUrl,
                 type:'POST',
                 data:formData,
                 contentType:false, //因为既要传图片也要传文字
